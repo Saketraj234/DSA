@@ -4,20 +4,26 @@
  * Given two strings s and goal,
  * return true if s can become goal after some rotations.
  *
- * A rotation means moving the last character to the front.
+ * A rotation means moving characters circularly.
  *
  * Example:
  * s = "abcde", goal = "cdeab" → true
  * s = "abcde", goal = "abced" → false
  *
- * Approach:
- * 1. If lengths are not equal → return false.
- * 2. If s equals goal → return true.
- * 3. Rotate string n times:
- *      - Move last character to front
- *      - Check after each rotation
+ * Approach (Optimal):
+ * Instead of checking all rotations,
+ * we use the property:
  *
- * Time Complexity: O(N^2)
+ * 👉 If goal is a rotation of s,
+ * then goal must be a substring of (s + s).
+ *
+ * Steps:
+ * 1. If lengths are not equal → return false.
+ * 2. Create a new string by concatenating s with itself → s + s.
+ * 3. Check if goal exists inside (s + s).
+ * 4. If yes → return true, else → false.
+ *
+ * Time Complexity: O(N)
  * Space Complexity: O(N)
  */
 
@@ -29,24 +35,6 @@ class Solution {
             return false;
         }
 
-        if (s.equals(goal)) {
-            return true;
-        }
-
-        String curr = s;
-        int n = curr.length();
-
-        for (int i = 0; i < n; i++) {
-
-            // Rotate (last char → front)
-            curr = curr.charAt(n - 1) + curr.substring(0, n - 1);
-
-            // Check
-            if (curr.equals(goal)) {
-                return true;
-            }
-        }
-
-        return false;
+        return (s + s).contains(goal);
     }
 }
