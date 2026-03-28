@@ -1,33 +1,55 @@
+/**
+ * Problem: 1. Two Sum
+ *
+ * Given an array of integers nums and an integer target,
+ * return indices of the two numbers such that they add up to target.
+ *
+ * You may assume that each input would have exactly one solution,
+ * and you may not use the same element twice.
+ *
+ * Approach:
+ * We use HashMap for fast lookup.
+ *
+ * Idea:
+ * For each element nums[i], we calculate:
+ * need = target - nums[i]
+ *
+ * If 'need' already exists in map,
+ * then we found our answer.
+ *
+ * Otherwise, store current element in map.
+ *
+ * Time Complexity: O(n)
+ * Space Complexity: O(n)
+ */
+
 class Solution {
+
     public int[] twoSum(int[] nums, int target) {
 
         // Map to store:
         // key   = number
-        // value = index of that number
-        // Purpose: fast lookup (O(1))
+        // value = index
         HashMap<Integer, Integer> map = new HashMap<>();
 
-        // Traverse the array once
+        // Traverse array
         for (int i = 0; i < nums.length; i++) {
 
-            // Required value to reach target
-            // nums[i] + need = target
+            // Find required number
             int need = target - nums[i];
 
-            // If required value already exists in map
-            // that means we found the pair
+            // Check if already exists
             if (map.containsKey(need)) {
 
-                // return indices of the two numbers
+                // Return indices
                 return new int[] { map.get(need), i };
             }
 
-            // Otherwise, store current number with its index
+            // Store current number
             map.put(nums[i], i);
         }
 
-        // As per problem, solution always exists
-        // This line is just for safety
+        // Safety (though problem guarantees answer)
         return new int[] {};
     }
 }
