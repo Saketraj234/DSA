@@ -1,70 +1,55 @@
-/**
- * Problem: 148. Sort List
- *
- * Given the head of a linked list,
- * return the list after sorting it in ascending order.
- *
- * Approach:
- * We use Merge Sort (best for Linked List).
- *
- * Step 1: Find middle using slow & fast pointer
- * Step 2: Split list into two halves
- * Step 3: Recursively sort both halves
- * Step 4: Merge two sorted lists
- *
- * Time Complexity: O(n log n)
- * Space Complexity: O(1)  (ignoring recursion stack)
- */
-
 class Solution {
 
     public ListNode sortList(ListNode head) {
-
-        // Base case: 0 or 1 node
+        // Base case
         if (head == null || head.next == null) return head;
 
-        // Step 1: Find middle
-        ListNode slow = head, fast = head, prev = null;
+        // Find middle
+        ListNode middle = findMiddle(head);
+        ListNode right = middle.next;
+        middle.next = null;
+        ListNode left = head;
+
+        // Recursively sort
+        left = sortList(left);
+        right = sortList(right);
+
+        // Merge sorted lists
+        return mergeTwoLists(left, right);
+    }
+
+    // Merge two sorted linked lists
+    private ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode dummy = new ListNode(-1);
+        ListNode temp = dummy;
+
+        while (list1 != null && list2 != null) {
+            if (list1.val < list2.val) {
+                temp.next = list1;
+                list1 = list1.next;
+            } else {
+                temp.next = list2;
+                list2 = list2.next;
+            }
+            temp = temp.next;
+        }
+
+        if (list1 != null) temp.next = list1;
+        else temp.next = list2;
+
+        return dummy.next;
+    }
+
+    // Find middle of linked list
+    private ListNode findMiddle(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head.next; // important for split
 
         while (fast != null && fast.next != null) {
-            prev = slow;
             slow = slow.next;
             fast = fast.next.next;
         }
 
-        // Step 2: Break into 2 halves
-        prev.next = null;
-
-        // Step 3: Sort both halves
-        ListNode l1 = sortList(head);
-        ListNode l2 = sortList(slow);
-
-        // Step 4: Merge sorted lists
-        return merge(l1, l2);
-    }
-
-    private ListNode merge(ListNode l1, ListNode l2) {
-
-        ListNode dummy = new ListNode(0);
-        ListNode curr = dummy;
-
-        while (l1 != null && l2 != null) {
-
-            if (l1.val < l2.val) {
-                curr.next = l1;
-                l1 = l1.next;
-            } else {
-                curr.next = l2;
-                l2 = l2.next;
-            }
-
-            curr = curr.next;
-        }
-
-        // Attach remaining nodes
-        if (l1 != null) curr.next = l1;
-        else curr.next = l2;
-
-        return dummy.next;
+        return slow;
     }
 }
