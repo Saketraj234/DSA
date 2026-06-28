@@ -1,27 +1,3 @@
-/**
- * Problem: 103. Binary Tree Zigzag Level Order Traversal
- *
- * Given the root of a binary tree,
- * return the zigzag level order traversal of its nodes' values.
- * (Left to Right, then Right to Left, alternating for each level.)
- *
- * Approach:
- * We use Breadth First Search (BFS) with a Queue.
- *
- * 1. Insert the root into the queue.
- * 2. Process one level at a time.
- * 3. If direction is Left -> Right,
- *    add node values normally.
- * 4. If direction is Right -> Left,
- *    insert node values at index 0.
- * 5. After every level,
- *    reverse the direction using:
- *    leftToRight = !leftToRight;
- *
- * Time Complexity: O(n)
- * Space Complexity: O(n)
- */
-
 class Solution {
 
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
